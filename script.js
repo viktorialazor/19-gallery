@@ -12,15 +12,9 @@ AlbumApi.getAlbumList()
 
     return firstAlbumId;
   })
-  .then((albumId) => {
-    return AlbumApi.getAlbumImages(albumId);
-  })
-  .then((images) => {
-    renderAlbumImages(images);
-  })
-  .catch((error) => {
-    showError(error.message);
-  });
+  .then(AlbumApi.getAlbumImages)
+  .then(renderAlbumImages)
+  .catch(showError);
 
 albumListElement.addEventListener('click', onAlbumListElementClick);
 
@@ -33,12 +27,8 @@ function onAlbumListElementClick(e) {
   const elementId = clickedElement.dataset.id;
 
   AlbumApi.getAlbumImages(elementId)
-  .then((images) => {
-    renderAlbumImages(images);
-  })
-  .catch((error) => {
-    showError(error.message);
-  });
+  .then(renderAlbumImages)
+  .catch(showError);
 };
 
 function renderAlbumList(list) {
@@ -63,4 +53,8 @@ function generateAlbumImages(image) {
   return `
     <img class="album-images__item" src=${image.thumbnailUrl.replace(BROKEN_IMG_DELIVERY, WORK_IMG_DELIVERY)} alt="image ${image.id}"/>
   `;
+};
+
+function showError(error) {
+  alert(error.message);
 };
